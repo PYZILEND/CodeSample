@@ -1,0 +1,66 @@
+﻿<Window x:Class="VatsCallsMonitoring.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VatsCallsMonitoring"
+        xmlns:viewmodels="clr-namespace:VatsCallsMonitoring.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="500">
+    <Window.DataContext>
+        <viewmodels:MainViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <TabControl>
+            <TabItem Header="Звонки по больницам">
+                <ScrollViewer>
+                    <ItemsControl x:Name="CallDataDisplay" ItemsSource="{Binding Groups}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <Label Content="{Binding Name}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Неуспешно:"/>
+                                        <Label Content="{Binding FailedCalls}" Foreground="Red"/>
+                                        <Label Content="Успешно:"/>
+                                        <Label Content="{Binding SuccessefullCalls}" Foreground="Green"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>                
+            </TabItem>
+            <TabItem Header="Группы">
+                <ScrollViewer>
+                    <ItemsControl x:Name="GroupsDataDisplay"  ItemsSource="{Binding Groups}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <Label Content="{Binding Name}" Height="26"/>
+                                    <Expander IsExpanded="False">
+                                        <ItemsControl x:Name="ExpanderUserInfo" ItemsSource="{Binding Users}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <Label Content="{Binding DisplayName}" Height="26"/>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Label Content="Логин:"/>
+                                                            <Label Content="{Binding Name}"/>
+                                                            <Label Content="Является оператором:"/>
+                                                            <Label Content="{Binding IsOperator}"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Expander>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>        
+    </Grid>
+</Window>
